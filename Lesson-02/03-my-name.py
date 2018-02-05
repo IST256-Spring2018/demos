@@ -29,7 +29,7 @@ print("Hello", firstname, lastname)
 print("Hello {}, {}".format(firstname, lastname))
 
 animal = input("Please enter an animal: ")
-action = input("Please enter an action")
+action = input("Please enter an action: ")
 
 print("The {} {}".format(animal, action))
 
