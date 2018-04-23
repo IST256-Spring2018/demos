@@ -8,26 +8,32 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>IST 256</title>
   </head>
   <body>
     <div class="container">
       <div class="jumbotron">
         <h1 class="text-center">Find Your Location</h1>
-        <form action="/map" class="form" method="post">
-          <label for="id_address">Enter you address below</label>
-          <input class="form-control" type="text" name="address">
+        <form action="/add_widget" class="form" method="post">
+          <label for="id_name">Widget Name</label>
+          <input class="form-control" type="text" name="name">
+          <label for="id_qty">Widget Quantity</label>
+          <input class="form-control" type="number" name="quantity">
           <hr />
-          <button class="btn btn-primary">See Map</button>
+          <button class="btn btn-primary">Add</button>
         </form>
 
-        <hr />
-        <p>Example Visualization</p>
-        <a class="btn btn-primary" href="/visualize">See Visualization</a>
+      </div>
+    </div>
 
-        <hr />
-        <p>Example Widget Database</p>
-        <a class="btn btn-primary" href="/widgets">See Widget Database</a>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Your widgets</h2>
+          {% for widget in widgets %}
+          <p>{{ widget.name }}: {{ widget.quantity }}</p>
+          {% endfor %}
+        </div>
       </div>
     </div>
 

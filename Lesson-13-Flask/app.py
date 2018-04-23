@@ -1,5 +1,10 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
+from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///webdb.db'
+db = SQLAlchemy(app)
+
+
 
 import folium
 import requests
@@ -12,7 +17,6 @@ url = "https://maps.googleapis.com/maps/api/geocode/json"
 
 @app.route("/")
 def main():
-    return "Hello World!"
     return render_template("index.html")
 
 @app.route('/map', methods=['POST'])
@@ -40,6 +44,28 @@ def visualize():
     return render_template('viz.html')
 
 
+class Widget(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(80), unique=True, nullable=False)
+    quantity = db.Column(db.Integer(), default=0)
+
+    def __repr__(self):
+        return '<Widget %r>' % self.nane
+
+@app.route("/widgets", methods=['GET'])
+def widgets():
+    widgets = Widget.query.all()
+    return render_template("widgets.html", widgets=widgets)
+
+@app.route("/add_widget", methods=['POST'])
+def add_widget():
+    widget = Widget(name=request.form["name"], quantity=int(request.form["quantity"]))
+    db.session.add(widget)
+    db.session.commit()
+    return redirect("/widgets")
+
+
 
 if __name__ == "__main__":
+    db.create_all()
     app.run(debug=True)
